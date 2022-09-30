@@ -196,11 +196,30 @@ class _InputPageState extends State<InputPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          RoundIconButton(
-                            icon: FontAwesomeIcons.minus),
+                          FloatingActionButton(
+                            backgroundColor: Color(0xFF4C4F5E),
+                            onPressed: () {
+                              setState(() {
+                                weight--;
+                              });
+                            },
+                            child: Icon(
+                              FontAwesomeIcons.minus,
+                              color: Colors.white,
+                            ),
+                          ),
                           SizedBox(width: 10.0),
-                          RoundIconButton(
-                            icon: FontAwesomeIcons.plus
+                          FloatingActionButton(
+                            backgroundColor: Color(0xFF4C4F5E),
+                            child: Icon(
+                              FontAwesomeIcons.plus,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                weight++;
+                              });
+                            },
                           ),
                         ],
                       ),
@@ -215,29 +234,47 @@ class _InputPageState extends State<InputPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        age.toString(),
+                        'AGE',
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Color(0xFF8D8E98),
                         ),
                       ),
                       Text(
-                        '25',
+                        age.toString(),
                         style: TextStyle(
                           fontSize: 50.0,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                       Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          RoundIconButton(
-                            icon: FontAwesomeIcons.minus,
+                          FloatingActionButton(
+                            backgroundColor: Color(0xFF4C4F5E),
+                            child: Icon(
+                              FontAwesomeIcons.minus,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                age--;
+                              });
+                            },
                           ),
                           SizedBox(width: 10.0),
-                          RoundIconButton(
-                            icon: FontAwesomeIcons.plus,
+                          FloatingActionButton(
+                            backgroundColor: Color(0xFF4C4F5E),
+                            child: Icon(
+                              FontAwesomeIcons.plus,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                age++;
+                              });
+                            },
                           )
                         ],
                       ),
@@ -286,28 +323,5 @@ class ReusableCard extends StatelessWidget {
         color: colour,
       ),
     );
-  }
-}
-
-class RoundIconButton extends StatelessWidget {
-  RoundIconButton({required this.icon});
-
-  final IconData icon;
-
-  @override 
-  Widget build (BuildContext context) {
-    return RawMaterialButton(
-      child: Icon(icon),
-      onPressed:(() {
-        
-      }),
-      elevation: 6.0,
-      constraints: BoxConstraints.tightFor(
-        width: 56.0,
-        height: 56.0,
-      ),
-      shape: CircleBorder(),
-      fillColor: Color(0xFF4C4F5E),
-      );
   }
 }
