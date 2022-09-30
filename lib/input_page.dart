@@ -6,32 +6,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 const activeCardColour = Color(0xFF1D1E33);
 const inactiveCardColour = Color(0xFF111328);
 
+enum Gender {
+  male,
+  female,
+}
+
 class InputPage extends StatefulWidget {
   @override
   _InputPageState createState() => _InputPageState();
 }
 
 class _InputPageState extends State<InputPage> {
-
-Color maleCardColour = inactiveCardColour;
-Color femaleCardColour = inactiveCardColour;
-
-void updateColour(int gender)
-{
-  if(gender==1)
-  {
-    if(maleCardColour==inactiveCardColour)
-    maleCardColour=activeCardColour;
-    else maleCardColour=inactiveCardColour;
-  }
-  if(gender==2)
-  {
-    if(femaleCardColour==inactiveCardColour)
-    femaleCardColour=activeCardColour;
-    else femaleCardColour=inactiveCardColour;
-  }
-  
-}
+  Gender selectedGender = Gender.male;
+  int height=180;
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +36,13 @@ void updateColour(int gender)
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
-                      updateColour(1);
+                      selectedGender = Gender.male;
                     });
                   },
                   child: ReusableCard(
-                    colour: maleCardColour,
+                    colour: selectedGender == Gender.male
+                        ? activeCardColour
+                        : inactiveCardColour,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -79,10 +68,14 @@ void updateColour(int gender)
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    updateColour(2);
+                    setState(() {
+                      selectedGender = Gender.female;
+                    });
                   },
                   child: ReusableCard(
-                    colour: femaleCardColour,
+                    colour: selectedGender == Gender.female
+                        ? activeCardColour
+                        : inactiveCardColour,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -123,14 +116,48 @@ void updateColour(int gender)
                             color: Color(0xFF8D8E98),
                           ),
                         ),
-                        Text(
-                          '150cm',
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                          height.toString(),
                           style: TextStyle(
                             fontSize: 50.0,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        Text(
+                          'cm',
+                          style: TextStyle(
+                            fontSize: 50.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                          ],
+                        ),
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            inactiveTrackColor: Color(0xFF8D8E98),
+                            activeTrackColor: Colors.white,
+                            thumbColor: Color(0xFFEB1555),
+                            overlayColor: Color(0x29EB1555),
+                            thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                            overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
+                          ),
+                          child: Slider(
+                            value: height.toDouble(),
+                            min: 120.0,
+                            max: 220.0,
+                            inactiveColor: Color(0xFF8D8E98),
+                            onChanged: (double newValue) {
+                              setState(() {
+                                height=newValue.round();
+                              });
+                            },
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -141,80 +168,82 @@ void updateColour(int gender)
           Expanded(
               child: Row(
             children: <Widget>[
-              Expanded(child: ReusableCard(
-                colour: activeCardColour,
-                cardChild: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'WEIGHT',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Color(0xFF8D8E98),
-                      ),
-                    ),
-                    Text(
-                      '87',
-                      style: TextStyle(
-                        fontSize: 50.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.remove,
-                          size: 50.0,
+              Expanded(
+                child: ReusableCard(
+                  colour: activeCardColour,
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'WEIGHT',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Color(0xFF8D8E98),
                         ),
-                        Icon(
-                          Icons.add,
-                          size: 50.0,
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                      Text(
+                        '87',
+                        style: TextStyle(
+                          fontSize: 50.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.remove,
+                            size: 50.0,
+                          ),
+                          Icon(
+                            Icons.add,
+                            size: 50.0,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Expanded(child: ReusableCard(
-                colour: activeCardColour,
-                cardChild: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'AGE',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Color(0xFF8D8E98),
-                      ),
-                    ),
-                    Text(
-                      '25',
-                      style: TextStyle(
-                        fontSize: 50.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.remove,
-                          size: 50.0,
+              Expanded(
+                child: ReusableCard(
+                  colour: activeCardColour,
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'AGE',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Color(0xFF8D8E98),
                         ),
-                        Icon(
-                          Icons.add,
-                          size: 50.0,
-                        )
-                      ],
-                    ),
-                  ],
+                      ),
+                      Text(
+                        '25',
+                        style: TextStyle(
+                          fontSize: 50.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.remove,
+                            size: 50.0,
+                          ),
+                          Icon(
+                            Icons.add,
+                            size: 50.0,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                ),
-                ),
+              ),
             ],
           )),
           Container(
@@ -243,8 +272,8 @@ void updateColour(int gender)
 
 class ReusableCard extends StatelessWidget {
   ReusableCard({required this.colour, required this.cardChild});
-  Widget cardChild;
-  Color colour;
+  final Widget cardChild;
+  final Color colour;
 
   @override
   Widget build(BuildContext context) {
