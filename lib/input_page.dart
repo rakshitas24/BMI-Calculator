@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:bmi_calculator/results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'calculator_brain.dart';
 
 const activeCardColour = Color(0xFF1D1E33);
 const inactiveCardColour = Color(0xFF111328);
@@ -197,6 +199,7 @@ class _InputPageState extends State<InputPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           FloatingActionButton(
+                            heroTag: null,
                             backgroundColor: Color(0xFF4C4F5E),
                             onPressed: () {
                               setState(() {
@@ -210,6 +213,7 @@ class _InputPageState extends State<InputPage> {
                           ),
                           SizedBox(width: 10.0),
                           FloatingActionButton(
+                            heroTag: null,
                             backgroundColor: Color(0xFF4C4F5E),
                             child: Icon(
                               FontAwesomeIcons.plus,
@@ -252,6 +256,7 @@ class _InputPageState extends State<InputPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           FloatingActionButton(
+                            heroTag: null,
                             backgroundColor: Color(0xFF4C4F5E),
                             child: Icon(
                               FontAwesomeIcons.minus,
@@ -265,6 +270,7 @@ class _InputPageState extends State<InputPage> {
                           ),
                           SizedBox(width: 10.0),
                           FloatingActionButton(
+                            heroTag: null,
                             backgroundColor: Color(0xFF4C4F5E),
                             child: Icon(
                               FontAwesomeIcons.plus,
@@ -284,21 +290,37 @@ class _InputPageState extends State<InputPage> {
               ),
             ],
           )),
-          Container(
-            color: Color(0xFFEB1555),
-            margin: EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: 80.0,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                'CALCULATE',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: (() {
+              CalculatorBrain calc =
+                  CalculatorBrain(height: height, weight: weight);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ResultPage(
+                    bmiResult: calc.calculateBMI(),
+                    resultText: calc.getResult(),
+                    interpretation: calc.getInterpretation(),
+                  ),
                 ),
-                textAlign: TextAlign.center,
+              );
+            }),
+            child: Container(
+              color: Color(0xFFEB1555),
+              margin: EdgeInsets.only(top: 10.0),
+              width: double.infinity,
+              height: 80.0,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Text(
+                  'CALCULATE',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           )
@@ -316,12 +338,12 @@ class ReusableCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: cardChild,
       margin: EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: colour,
       ),
+      child: cardChild,
     );
   }
 }
